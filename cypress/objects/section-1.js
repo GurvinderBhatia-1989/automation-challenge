@@ -1,40 +1,57 @@
-const Section1 = {
-  /**
-   * A literal is considered static, stable strings (eg. titles, form labels, ...)
-   */
-  literals: {
-    SAMPLE_LITERAL: 'This is a sample literal. You can safely delete it.',
-  },
+import formdetails from '../fixtures/formdetails.json'
 
-  /**
-   * An element is a selector for any DOM element (eg. [data-test="xxx"], #id, ...)
-   */
-  elements: {
-    sampleElement: '[data-test=sample-element-to-be-safely-deleted]',
-  },
+class DomInteractions {
 
-  /**
-   * An action should be pretty self explanatory! It consists of all the method performing
-   * a particular action from clicking a simple button to doing complex assertions.
-   */
-  actions: {
-    /**
-     * Example of action.
-     * In this example, we are grabbing a sample element, clicking on it and asserting the api answer.
-     *
-     * This is only used as an example and can be safely deleted.
-     */
-    assertSampleApiResponse () {
-      cy.server()
-      cy.wait('/endpoint').as('endpoint')
+  visit() {
+    cy.visit(formdetails.Section1HTMLPage)
+  }
 
-      cy.get(Section1.elements.sampleElement).click()
-      // ... An api call to "/endpoint" performed on the app.
-      cy.wait('@endpoint').should((request) => {
-        expect(request.status).to.eq(200)
-      })
-    },
-  },
+  fillName(Value) {
+    const field = cy.get(formdetails.nameelement)
+    field.clear()
+    field.type(Value)
+    return this
+
+  }
+
+  fillAge(Value) {
+    const field = cy.get(formdetails.ageelement)
+    field.clear()
+    field.type(Value)
+    return this
+
+  }
+
+  fillGender(Value) {
+    const field = cy.get(formdetails.genderelement)
+    field.select(Value)
+    return this
+
+  }
+
+  fillNurse() {
+    const field = cy.get(formdetails.nurseelement)
+    field.check()
+
+
+  }
+
+  clickShowForm() {
+    const button = cy.get(formdetails.ShowFormButton)
+    button.click()
+  }
+
+  clickShowTable() {
+    const button = cy.get(formdetails.ShowTableButton)
+    button.click()
+  }
+
+  clickSubmit() {
+    const button = cy.get(formdetails.SubmitButton)
+    button.click()
+
+  }
+
 }
-
-module.exports = { Section1 }
+const domObj = new DomInteractions()
+export default domObj
